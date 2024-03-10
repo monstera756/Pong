@@ -16,11 +16,12 @@ bool init()
 	}
 	else //create window
 	{
-		SDL_Window* window;// = NULL; //window
+		SDL_Window* window = NULL; //window
 		window = SDL_CreateWindow("InitWindow", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-		SDL_Renderer* renderer;// = NULL;
+		SDL_Renderer* renderer = NULL;
 		renderer = SDL_CreateRenderer(window, -1, 0); //calls to affect window
+
 		SDL_SetRenderDrawColor(renderer, 100, 0, 255, 0); //uni colors - set on window
 		SDL_RenderClear(renderer);
 		SDL_RenderPresent(renderer);
@@ -37,33 +38,52 @@ bool init()
 		{
 			SDL_Surface* screenSurface = NULL; //surface contained by window; image data type
 
-			//pointers to SDL surfaces. The reason is that 
-			//1) we'll be dynamically allocating memory to load images and 
+			//1) to dynamically allocating memory to load images by pointers 
 			//2) it's better to reference an image by memory location
 		}
 	}
 	return success;
 }
 
-int main(int argc, char* argv[])
+void Close()
 {
-	
-	//if (!//
-	init();
-	{
-		//std::cout "Failed to initialize."
-	}
-	//else //main loop
-	{
+	SDL_FreeSurface(screenSurface);
+	screenSurface = NULL;
 
-	}
-		
-	//SDL_DestroyWindow();
+	SDL_DestroyWindowSurface(window);
+	window = NULL;
+
 	SDL_Quit();
-	return 0;
 }
 
-//SDL_GetError
+int main(int argc, char* argv[])
+{
+	if (!init())
+	{
+		std::cout << "Failed to initialize.";
+	}
+	else //main loop
+	{
+		SDL_Event ev;
+
+		bool quit = false;
+		while (!quit)
+		{
+			while (SDL_PollEvent (&ev))
+			{
+				if (ev.type == SDL_Quit)
+				{
+					quit = true;
+				}
+			}
+
+		}
+	}
+		
+	Close();
+
+	return 0;
+}
 
 //SDL_PollEvent SDL_MouseMotionEvent - ruch myszki
 
